@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Scrum Polling</string>
+    <string name="scroll_sensitivity">Scroll sensitivity:</string>
 </resources>
