@@ -10,7 +10,7 @@
             android:summary="@string/pref_scroll_sensitivity_summary"
             android:entries="@array/Sensitivity"
             android:entryValues="@array/SensitivityValues"
-            android:defaultValue="@string/pref_scroll_sensitivity_slow" />
+            android:defaultValue="30" />
     </PreferenceCategory>
     <PreferenceCategory android:title="Other Preferences">
 

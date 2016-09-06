@@ -13,13 +13,15 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     TextView pollNumberTextView;
+
     int lastXLocation;
     int[] fibonacciArray;
     int fibonacciArrayIndex;
     int scrollSensitivity;
+
     String pollNumberText;
     final String QUESTION_MARK = "?";
-    boolean isActivityActive;
+
     SharedPreferences prefs;
 
     @Override
@@ -31,11 +33,8 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){ actionBar.hide(); }
 
-        isActivityActive = true;
-
         // Read from xml and set preferences default values
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-//        prefs = PreferenceManager
 
         pollNumberTextView = (TextView) findViewById(R.id.pollNumberTextView);
         fibonacciArray = new int[]{1,2,3,5,8,13,21,34,55,89};
@@ -47,17 +46,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause(){
         super.onPause();
-        isActivityActive = false;
     }
 
     @Override
     public void onResume(){
         super.onResume();
-
-        if (!isActivityActive){
-            isActivityActive = true;
-
-        }
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override
@@ -69,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
             case MotionEvent.ACTION_DOWN:
                 lastXLocation = currentXLocation;
                 pollNumberTextView.setText(pollNumberText);
-                scrollSensitivity = 30;
+                scrollSensitivity = Integer.parseInt(prefs.getString("sensitivity_preference", "30"));
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 int locationDifference = currentXLocation - lastXLocation;
