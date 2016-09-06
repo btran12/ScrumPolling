@@ -6,11 +6,18 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    // TODO
+    // 1. Be able to add more numbers
+    // 2. Use different polling system (i.e. Tshirt's sizes, bucket, ...)
+    // 3. Be able to add their own polling system
+    //
 
     TextView pollNumberTextView;
 
@@ -18,11 +25,17 @@ public class MainActivity extends AppCompatActivity {
     int[] fibonacciArray;
     int fibonacciArrayIndex;
     int scrollSensitivity;
-
+    boolean isCardVisible;
     String pollNumberText;
+
     final String QUESTION_MARK = "?";
+    final String VISIBLE_MODE_STRING = "Visible Mode";
+    final String HIDDEN_MODE_STRING = "Hidden Mode";
 
     SharedPreferences prefs;
+
+    private GestureDetector gestureDetector;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
         fibonacciArrayIndex = 0;    // Starting index
         pollNumberText= String.valueOf(fibonacciArray[fibonacciArrayIndex]);
 
+        isCardVisible = false;
+
+        // Double tap listener to toggle between show/hide card mode
+        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                isCardVisible = !isCardVisible;
+                Toast.makeText(MainActivity.this, getCardVisibilityMode(isCardVisible), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -51,11 +76,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+
+        // Settings changes
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        scrollSensitivity = Integer.parseInt(prefs.getString("sensitivity_preference", "30"));
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event){
+        if (gestureDetector.onTouchEvent(event))
+            return true;
+
         int currentXLocation = (int) event.getX();
 
         switch(event.getAction())
@@ -63,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
             case MotionEvent.ACTION_DOWN:
                 lastXLocation = currentXLocation;
                 pollNumberTextView.setText(pollNumberText);
-                scrollSensitivity = Integer.parseInt(prefs.getString("sensitivity_preference", "30"));
-
                 break;
             case MotionEvent.ACTION_MOVE:
                 int locationDifference = currentXLocation - lastXLocation;
@@ -89,24 +118,30 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
             case MotionEvent.ACTION_UP:
-                pollNumberTextView.setText(QUESTION_MARK);
+                String text = isCardVisible ? pollNumberText : QUESTION_MARK;
+                pollNumberTextView.setText(text);
+
                 break;
         }
         return true;
     }
 
     // --- Conditionals ---
-    public boolean lastElement(){
+    private boolean lastElement(){
         return fibonacciArrayIndex == fibonacciArray.length-1;
     }
-    public boolean firstElement(){
+    private boolean firstElement(){
         return fibonacciArrayIndex == 0;
     }
 
     // --- Getters & Setters ---
 
-    public boolean isPositive(int number){
+    private boolean isPositive(int number){
         return number >= 0;
+    }
+
+    private String getCardVisibilityMode(boolean cardVisiblity){
+        return isCardVisible ? VISIBLE_MODE_STRING : HIDDEN_MODE_STRING;
     }
 
     /**
