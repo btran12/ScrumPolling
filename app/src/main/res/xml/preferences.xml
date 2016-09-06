@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Functional Components">
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Usability">
+        <ListPreference
+            android:key="sensitivity_preference"
+            android:title="@string/pref_scroll_sensitivity_title"
+            android:summary="@string/pref_scroll_sensitivity_summary"
+            android:entries="@array/Sensitivity"
+            android:entryValues="@array/SensitivityValues"
+            android:defaultValue="@string/pref_scroll_sensitivity_slow" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Other Preferences">
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

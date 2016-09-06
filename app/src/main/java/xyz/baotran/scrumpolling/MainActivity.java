@@ -1,13 +1,14 @@
 package xyz.baotran.scrumpolling;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,26 +19,45 @@ public class MainActivity extends AppCompatActivity {
     int scrollSensitivity;
     String pollNumberText;
     final String QUESTION_MARK = "?";
-
-    Settings settings;
+    boolean isActivityActive;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Hide the Action Bar
+        // Hide the Action Bar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){ actionBar.hide(); }
+
+        isActivityActive = true;
+
+        // Read from xml and set preferences default values
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+//        prefs = PreferenceManager
 
         pollNumberTextView = (TextView) findViewById(R.id.pollNumberTextView);
         fibonacciArray = new int[]{1,2,3,5,8,13,21,34,55,89};
         fibonacciArrayIndex = 0;    // Starting index
         pollNumberText= String.valueOf(fibonacciArray[fibonacciArrayIndex]);
 
-        settings = new Settings();
-        scrollSensitivity = settings.getScrollSensitivity();
+    }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        isActivityActive = false;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        if (!isActivityActive){
+            isActivityActive = true;
+
+        }
     }
 
     @Override
@@ -49,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             case MotionEvent.ACTION_DOWN:
                 lastXLocation = currentXLocation;
                 pollNumberTextView.setText(pollNumberText);
+                scrollSensitivity = 30;
                 break;
             case MotionEvent.ACTION_MOVE:
                 int locationDifference = currentXLocation - lastXLocation;
@@ -79,18 +100,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                scrollSensitivity = data.getIntExtra("scroll_sensitivity_result",30);
-                Toast toast = Toast.makeText(this, scrollSensitivity+"",Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        }
-    }
-
     // --- Conditionals ---
     public boolean lastElement(){
         return fibonacciArrayIndex == fibonacciArray.length-1;
@@ -112,8 +121,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void openSettingsActivity(View view){
         Intent intent = new Intent(this, SettingsActivity.class);
-        intent.putExtra("scroll_sensitivity", scrollSensitivity);
-        startActivityForResult(intent,1);
+        startActivity(intent);
     }
 
 }

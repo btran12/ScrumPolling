@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Scrum Polling</string>
     <string name="scroll_sensitivity">Scroll sensitivity:</string>
+    <string name="pref_scroll_sensitivity_slow">Slow</string>
+    <string name="pref_scroll_sensitivity_medium">Medium</string>
+    <string name="pref_scroll_sensitivity_fast">Fast</string>
+    <string name="pref_scroll_sensitivity_title">Scroll Sensitivity</string>
+    <string name="pref_scroll_sensitivity_summary">Set the speed of your scroll</string>
 </resources>
