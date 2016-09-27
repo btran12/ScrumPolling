@@ -10,5 +10,16 @@
         <item>22</item>
         <item>15</item>
     </string-array>
-
+    <string-array name="VotingSystems">
+        <item>Fibonacci</item>
+        <item>T-Shirt Sizes</item>
+        <item>Bucket</item>
+        <item>Dots</item>
+    </string-array>
+    <string-array name="VotingSystemsValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>

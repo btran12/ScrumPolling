@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
     <PreferenceCategory android:title="Functional Components">
         <ListPreference
-            android:title="Pick Voting System" />
+            android:key="voting_system_preference"
+            android:title="Voting Systems"
+            android:summary="Switch to a different voting system"
+            android:entries="@array/VotingSystems"
+            android:entryValues="@array/VotingSystemsValues"
+            android:defaultValue="0"
+            />
+        <Preference
+            android:title="Add Value"
+            android:summary="Double tap to append single value to list"
+            android:key="@string/add_value"
+            />
     </PreferenceCategory>
+
     <PreferenceCategory android:title="Usability">
         <ListPreference
             android:key="sensitivity_preference"
@@ -11,8 +24,10 @@
             android:summary="@string/pref_scroll_sensitivity_summary"
             android:entries="@array/Sensitivity"
             android:entryValues="@array/SensitivityValues"
-            android:defaultValue="30" />
+            android:defaultValue="30"
+            />
     </PreferenceCategory>
+
     <PreferenceCategory android:title="Other Preferences">
 
     </PreferenceCategory>
