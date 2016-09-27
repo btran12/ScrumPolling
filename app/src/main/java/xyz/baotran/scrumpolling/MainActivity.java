@@ -16,17 +16,17 @@ public class MainActivity extends AppCompatActivity {
     // TODO
     // 1. Be able to add more numbers
     // 2. Use different polling system (i.e. Tshirt's sizes, bucket, ...)
-    // 3. Be able to add their own polling system
+    // 3. Be able to add their own polling system (Whatever they desires <T>)
     //
 
     TextView pollNumberTextView;
 
     int lastXLocation;
-    int[] fibonacciArray;
     int fibonacciArrayIndex;
     int scrollSensitivity;
     boolean isCardVisible;
     String pollNumberText;
+    Fibonacci fibArray;
 
     final String QUESTION_MARK = "?";
     final String VISIBLE_MODE_STRING = "Visible Mode";
@@ -50,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         pollNumberTextView = (TextView) findViewById(R.id.pollNumberTextView);
-        fibonacciArray = new int[]{1,2,3,5,8,13,21,34,55,89};
+        fibArray = new Fibonacci();
         fibonacciArrayIndex = 0;    // Starting index
-        pollNumberText= String.valueOf(fibonacciArray[fibonacciArrayIndex]);
+        pollNumberText= String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
 
         isCardVisible = false;
 
@@ -66,20 +66,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-
-        // Settings changes
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        scrollSensitivity = Integer.parseInt(prefs.getString("sensitivity_preference", "30"));
     }
 
     @Override
@@ -102,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (!lastElement()) { fibonacciArrayIndex++; }
 
-                    pollNumberText = String.valueOf(fibonacciArray[fibonacciArrayIndex]);
+                    pollNumberText = String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
                     pollNumberTextView.setText(pollNumberText);
 
                     lastXLocation = currentXLocation;
@@ -110,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (!firstElement()) { fibonacciArrayIndex--; }
 
-                    pollNumberText = String.valueOf(fibonacciArray[fibonacciArrayIndex]);
+                    pollNumberText = String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
                     pollNumberTextView.setText(pollNumberText);
 
                     lastXLocation = currentXLocation;
@@ -126,9 +112,25 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    // --- Conditionals ---
+    @Override
+    public void onPause(){
+        super.onPause();
+    }
+
+    /**
+     * This method is invoked when the current activity is active, or when it first start up
+     */
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        // Settings changes
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        scrollSensitivity = Integer.parseInt(prefs.getString("sensitivity_preference", "30"));
+    }
+
     private boolean lastElement(){
-        return fibonacciArrayIndex == fibonacciArray.length-1;
+        return fibonacciArrayIndex == fibArray.size()-1;
     }
     private boolean firstElement(){
         return fibonacciArrayIndex == 0;
@@ -144,11 +146,6 @@ public class MainActivity extends AppCompatActivity {
         return isCardVisible ? VISIBLE_MODE_STRING : HIDDEN_MODE_STRING;
     }
 
-    /**
-     * Settings button actionlistener
-     *
-     * @param view
-     */
     public void openSettingsActivity(View view){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
