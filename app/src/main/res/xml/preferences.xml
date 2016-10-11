@@ -11,9 +11,10 @@
             android:defaultValue="0"
             />
         <Preference
-            android:title="Add Value"
+            android:title="Add New Value"
             android:summary="Double tap to append single value to list"
             android:key="@string/add_value"
+            android:defaultValue="0"
             />
     </PreferenceCategory>
 

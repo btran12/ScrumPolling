@@ -29,8 +29,12 @@ public class Fibonacci implements VotingSystemInterface{
         }
     }
 
+    /**
+     * Append the next fibonacci number in the sequence
+     *
+     */
     @Override
-    public void add (int value){
+    public void add(){
         int tail = fibArray.get(size()-2);
         int head = fibArray.get(size()-1);
         fibArray.add(tail + head);
@@ -54,5 +58,9 @@ public class Fibonacci implements VotingSystemInterface{
     @Override
     public int size(){
         return fibArray.size();
+    }
+
+    public String toString(){
+        return fibArray.toString();
     }
 }

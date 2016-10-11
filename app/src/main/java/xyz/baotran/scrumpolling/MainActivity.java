@@ -14,7 +14,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     // TODO
-    // 1. Be able to add more numbers
+    // 1. Be able to remove numbers
+    // When numbers has 3 digits or greater, rotate screen to landscape.
     // 2. Use different polling system (i.e. Tshirt's sizes, bucket, ...)
     // 3. Be able to add their own polling system (Whatever they desires <T>)
     //
@@ -29,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
     Fibonacci fibArray;
 
     final String QUESTION_MARK = "?";
-    final String VISIBLE_MODE_STRING = "Visible Mode";
-    final String HIDDEN_MODE_STRING = "Hidden Mode";
+    final String VISIBLE_MODE_STRING = "Card Visible";
+    final String HIDDEN_MODE_STRING = "Card Hidden";
 
     SharedPreferences prefs;
 
@@ -119,14 +120,26 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * This method is invoked when the current activity is active, or when it first start up
+     * For instance from the Settings activity back to the Main activity.
      */
     @Override
     public void onResume(){
         super.onResume();
 
-        // Settings changes
+        // Get settings changes
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         scrollSensitivity = Integer.parseInt(prefs.getString("sensitivity_preference", "30"));
+
+        SharedPreferences dynamicPrefs = getSharedPreferences("dynamic-prefs", MODE_PRIVATE);
+        int numberOfNewValues = dynamicPrefs.getInt("addNewValue", 0);
+        for (int i = 0; i < numberOfNewValues; i++) {
+            fibArray.add();
+        }
+
+        if (numberOfNewValues > 0){
+            Toast.makeText(this, "New List: " + fibArray.toString(), Toast.LENGTH_SHORT).show();
+        }
+        dynamicPrefs.edit().putInt("addNewValue", 0).apply();
     }
 
     private boolean lastElement(){
