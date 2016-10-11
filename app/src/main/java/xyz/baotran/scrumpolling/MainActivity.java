@@ -131,15 +131,26 @@ public class MainActivity extends AppCompatActivity {
         scrollSensitivity = Integer.parseInt(prefs.getString("sensitivity_preference", "30"));
 
         SharedPreferences dynamicPrefs = getSharedPreferences("dynamic-prefs", MODE_PRIVATE);
+
         int numberOfNewValues = dynamicPrefs.getInt("addNewValue", 0);
         for (int i = 0; i < numberOfNewValues; i++) {
             fibArray.add();
         }
+        dynamicPrefs.edit().putInt("addNewValue", 0).apply();
 
-        if (numberOfNewValues > 0){
+        int countOfValuesToRemove = dynamicPrefs.getInt("removeLastValue", 0);
+        for (int i = 0; i < countOfValuesToRemove; i++){
+            fibArray.remove();
+        }
+        // Check for out of bound index after removal
+        if (fibArray.size()-1 < fibonacciArrayIndex) { fibonacciArrayIndex = fibArray.size()-1; }
+
+        dynamicPrefs.edit().putInt("removeLastValue", 0).apply();
+
+        if (numberOfNewValues > 0 || countOfValuesToRemove > 0){
             Toast.makeText(this, "New List: " + fibArray.toString(), Toast.LENGTH_SHORT).show();
         }
-        dynamicPrefs.edit().putInt("addNewValue", 0).apply();
+
     }
 
     private boolean lastElement(){

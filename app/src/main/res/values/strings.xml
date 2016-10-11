@@ -6,5 +6,6 @@
     <string name="pref_scroll_sensitivity_fast">Fast</string>
     <string name="pref_scroll_sensitivity_title">Scroll Sensitivity</string>
     <string name="pref_scroll_sensitivity_summary">Set the speed of your scroll</string>
-    <string name="add_value">addNewValue</string>
+    <string name="add_value_pref_key">addNewValue</string>
+    <string name="remove_value_pref_key">removeLastValue</string>
 </resources>

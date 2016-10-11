@@ -40,6 +40,15 @@ public class Fibonacci implements VotingSystemInterface{
         fibArray.add(tail + head);
     }
 
+    /**
+     * Remove the last value in array
+     */
+    public void remove(){
+        if (fibArray.size() > 0) {
+            fibArray.remove(fibArray.size()-1);
+        }
+    }
+
     @Override
     public void addValueAt(int index, int value) {
         fibArray.add(index, value);

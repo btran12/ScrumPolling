@@ -11,9 +11,15 @@
             android:defaultValue="0"
             />
         <Preference
-            android:title="Add New Value"
+            android:title="Add New Voting Value"
             android:summary="Double tap to append single value to list"
-            android:key="@string/add_value"
+            android:key="@string/add_value_pref_key"
+            android:defaultValue="0"
+            />
+        <Preference
+            android:title="Remove Last Voting Value"
+            android:summary="Double tap to remove last value from list"
+            android:key="@string/remove_value_pref_key"
             android:defaultValue="0"
             />
     </PreferenceCategory>
