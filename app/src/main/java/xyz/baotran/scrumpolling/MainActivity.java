@@ -140,10 +140,17 @@ public class MainActivity extends AppCompatActivity {
 
         int countOfValuesToRemove = dynamicPrefs.getInt("removeLastValue", 0);
         for (int i = 0; i < countOfValuesToRemove; i++){
-            fibArray.remove();
+            // Keep at least 1 value remaining
+            if (fibArray.size() > 1){
+                fibArray.remove();
+            }
+
         }
         // Check for out of bound index after removal
-        if (fibArray.size()-1 < fibonacciArrayIndex) { fibonacciArrayIndex = fibArray.size()-1; }
+        // Smaller index to jump to if the larger indexes was removed
+        if (fibArray.size()-1 < fibonacciArrayIndex) {
+            fibonacciArrayIndex = fibArray.size()-1;
+        }
 
         dynamicPrefs.edit().putInt("removeLastValue", 0).apply();
 
