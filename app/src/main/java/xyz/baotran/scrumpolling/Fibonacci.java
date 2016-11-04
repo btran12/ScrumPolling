@@ -8,15 +8,27 @@ import java.util.ArrayList;
 public class Fibonacci implements VotingSystemInterface{
 
     final int NUMBER_OF_DEFAULT_VALUES = 7;
+    final int MAXIMUM_COUNT_OF_VALUES = 15;
 
     ArrayList<Integer> fibArray;
 
+    /**
+     * Initialize object with default values
+     */
     public Fibonacci(){
         fibArray = new ArrayList<>();
-        initFibArrayWithDefaultValues();
+        initArrayWithDefaultValues();
     }
 
-    public void initFibArrayWithDefaultValues(){
+    /**
+     * Initialize object with saved or existing values
+     * @param _fibArray list of existing or saved values
+     */
+    public Fibonacci(ArrayList _fibArray){
+        fibArray = _fibArray;
+    }
+
+    private void initArrayWithDefaultValues(){
         int tail = 0;
         int head = 1;
 
@@ -35,15 +47,19 @@ public class Fibonacci implements VotingSystemInterface{
      */
     @Override
     public void add(){
-        int tail;
-        if (this.size() == 1){
-            tail = 1;
-        }else{
-            tail = fibArray.get(size()-2);
-        }
+        boolean listNotMaxed = this.size() < MAXIMUM_COUNT_OF_VALUES;
 
-        int head = fibArray.get(size()-1);
-        fibArray.add(tail + head);
+        if (listNotMaxed) {
+            int tail;
+            if (this.size() == 1) {
+                tail = 1;
+            } else {
+                tail = fibArray.get(size() - 2);
+            }
+
+            int head = fibArray.get(size() - 1);
+            fibArray.add(tail + head);
+        }
     }
 
     /**
