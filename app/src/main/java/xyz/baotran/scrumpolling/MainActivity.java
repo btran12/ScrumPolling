@@ -12,9 +12,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity {
     // TODO
-    // 1. Be able to remove numbers
     // When numbers has 3 digits or greater, rotate screen to landscape.
     // 2. Use different polling system (i.e. Tshirt's sizes, bucket, ...)
     // 3. Be able to add their own polling system (Whatever they desires <T>)
@@ -32,10 +34,13 @@ public class MainActivity extends AppCompatActivity {
     final String QUESTION_MARK = "?";
     final String VISIBLE_MODE_STRING = "Card Visible";
     final String HIDDEN_MODE_STRING = "Card Hidden";
+    final String CONFIG_FILE_NAME = "configs.txt";
 
     SharedPreferences prefs;
 
     private GestureDetector gestureDetector;
+
+    FileModifications fileMods;
 
 
     @Override
@@ -47,11 +52,21 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){ actionBar.hide(); }
 
+        fileMods = new FileModifications(CONFIG_FILE_NAME, this);
+
         // Read from xml and set preferences default values
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        String readData = fileMods.read();
+
+        if (readData.length()>0){
+            ArrayList<Integer> arrayOfInts = new ArrayList<>(
+                    Arrays.asList(parseStringToIntArray(readData)));
+            fibArray = new Fibonacci(arrayOfInts);
+        }else{
+            fibArray = new Fibonacci();
+        }
 
         pollNumberTextView = (TextView) findViewById(R.id.pollNumberTextView);
-        fibArray = new Fibonacci();
         fibonacciArrayIndex = 0;    // Starting index
         pollNumberText= String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
 
@@ -68,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
+// ----------- EVENTS -----------------------------
     @Override
     public boolean onTouchEvent(MotionEvent event){
         if (gestureDetector.onTouchEvent(event))
@@ -154,10 +169,27 @@ public class MainActivity extends AppCompatActivity {
 
         dynamicPrefs.edit().putInt("removeLastValue", 0).apply();
 
+        //Prompt if changes were made to the list
         if (numberOfNewValues > 0 || countOfValuesToRemove > 0){
-            Toast.makeText(this, "New List: " + fibArray.toString(), Toast.LENGTH_SHORT).show();
+            String listAsString = fibArray.toString();
+            Toast.makeText(this, "New List: [" + listAsString +"]", Toast.LENGTH_SHORT).show();
+            //Save new list
+            fileMods.write(listAsString);
         }
 
+    }
+
+    private Integer[] parseStringToIntArray(String str){
+        String[] strValue = str.split(",");
+        Integer[] ints = new Integer[strValue.length];
+        for(int i=0; i < strValue.length; i++)
+        {
+            try {
+                ints[i] = Integer.parseInt(strValue[i]);
+            } catch (NumberFormatException nfe) {}
+        }
+
+        return ints;
     }
 
     private boolean lastElement(){

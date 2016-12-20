@@ -92,6 +92,9 @@ public class Fibonacci implements VotingSystemInterface{
     }
 
     public String toString(){
-        return fibArray.toString();
+        String str = fibArray.toString();
+        str = str.substring(1,fibArray.toString().length()-1); //Remove front and end brackets []
+        str = str.replaceAll("\\s","");
+        return str;
     }
 }
