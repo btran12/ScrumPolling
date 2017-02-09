@@ -12,6 +12,7 @@ import java.io.OutputStreamWriter;
 
 /**
  * Created by bao on 12/20/16.
+ * Read and write values to text file
  */
 public class FileModifications {
     private String filename;
