@@ -16,19 +16,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-    // TODO
+    // TODO 2.
     // When numbers has 3 digits or greater, rotate screen to landscape.
     // 2. Use different polling system (i.e. Tshirt's sizes, bucket, ...)
     // 3. Be able to add their own polling system (Whatever they desires <T>)
     //
 
-    TextView pollNumberTextView;
+    TextView pollValueTextView;
 
     int lastXLocation;
     int fibonacciArrayIndex;
     int scrollSensitivity;
     boolean isCardVisible;
-    String pollNumberText;
+    String pollValueAsStr;
     Fibonacci fibArray;
 
     final String QUESTION_MARK = "?";
@@ -52,10 +52,34 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){ actionBar.hide(); }
 
-        fileMods = new FileModifications(CONFIG_FILE_NAME, this);
-
         // Read from xml and set preferences default values
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        loadData();
+
+        pollValueTextView = (TextView) findViewById(R.id.pollNumberTextView);
+        fibonacciArrayIndex = 0;    // Starting index
+        pollValueAsStr = String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
+
+        isCardVisible = false;
+
+        // Double tap listener to toggle between show/hide card mode
+        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                isCardVisible = !isCardVisible;
+                Toast.makeText(MainActivity.this, getCardVisibilityModeStr(isCardVisible), Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+    }
+
+    /**
+     * Load any existing data
+     */
+    private void loadData(){
+        fileMods = new FileModifications(CONFIG_FILE_NAME, this);
         String readData = fileMods.read();
 
         if (readData.length()>0){
@@ -65,23 +89,6 @@ public class MainActivity extends AppCompatActivity {
         }else{
             fibArray = new Fibonacci();
         }
-
-        pollNumberTextView = (TextView) findViewById(R.id.pollNumberTextView);
-        fibonacciArrayIndex = 0;    // Starting index
-        pollNumberText= String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
-
-        isCardVisible = false;
-
-        // Double tap listener to toggle between show/hide card mode
-        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                isCardVisible = !isCardVisible;
-                Toast.makeText(MainActivity.this, getCardVisibilityMode(isCardVisible), Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
-
     }
 // ----------- EVENTS -----------------------------
     @Override
@@ -95,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         {
             case MotionEvent.ACTION_DOWN:
                 lastXLocation = currentXLocation;
-                pollNumberTextView.setText(pollNumberText);
+                pollValueTextView.setText(pollValueAsStr);
                 break;
             case MotionEvent.ACTION_MOVE:
                 int locationDifference = currentXLocation - lastXLocation;
@@ -104,24 +111,24 @@ public class MainActivity extends AppCompatActivity {
 
                     if (!lastElement()) { fibonacciArrayIndex++; }
 
-                    pollNumberText = String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
-                    pollNumberTextView.setText(pollNumberText);
+                    pollValueAsStr = String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
+                    pollValueTextView.setText(pollValueAsStr);
 
                     lastXLocation = currentXLocation;
                 }else if (!isPositive(locationDifference) && (locationDifference * -1) > scrollSensitivity){
 
                     if (!firstElement()) { fibonacciArrayIndex--; }
 
-                    pollNumberText = String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
-                    pollNumberTextView.setText(pollNumberText);
+                    pollValueAsStr = String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
+                    pollValueTextView.setText(pollValueAsStr);
 
                     lastXLocation = currentXLocation;
                 }
 
                 break;
             case MotionEvent.ACTION_UP:
-                String text = isCardVisible ? pollNumberText : QUESTION_MARK;
-                pollNumberTextView.setText(text);
+                String text = isCardVisible ? pollValueAsStr : QUESTION_MARK;
+                pollValueTextView.setText(text);
 
                 break;
         }
@@ -143,16 +150,19 @@ public class MainActivity extends AppCompatActivity {
 
         // Get settings changes
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //Field updated for events
         scrollSensitivity = Integer.parseInt(prefs.getString("sensitivity_preference", "30"));
 
         SharedPreferences dynamicPrefs = getSharedPreferences("dynamic-prefs", MODE_PRIVATE);
 
+        //On preference change - add any new value
         int numberOfNewValues = dynamicPrefs.getInt("addNewValue", 0);
         for (int i = 0; i < numberOfNewValues; i++) {
             fibArray.add();
         }
         dynamicPrefs.edit().putInt("addNewValue", 0).apply();
 
+        //On preference change - remove any old value
         int countOfValuesToRemove = dynamicPrefs.getInt("removeLastValue", 0);
         for (int i = 0; i < countOfValuesToRemove; i++){
             // Keep at least 1 value remaining
@@ -201,11 +211,15 @@ public class MainActivity extends AppCompatActivity {
 
     // --- Getters & Setters ---
 
+    private void setView(){
+
+    }
+
     private boolean isPositive(int number){
         return number >= 0;
     }
 
-    private String getCardVisibilityMode(boolean cardVisiblity){
+    private String getCardVisibilityModeStr(boolean cardVisiblity){
         return isCardVisible ? VISIBLE_MODE_STRING : HIDDEN_MODE_STRING;
     }
 
