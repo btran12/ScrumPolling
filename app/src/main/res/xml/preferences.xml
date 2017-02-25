@@ -35,8 +35,8 @@
             />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Other Preferences">
+    <!--<PreferenceCategory android:title="Other Preferences">-->
 
-    </PreferenceCategory>
+    <!--</PreferenceCategory>-->
 
 </PreferenceScreen>
