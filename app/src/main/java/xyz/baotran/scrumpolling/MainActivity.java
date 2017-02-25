@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     TextView pollValueTextView;
 
     int lastXLocation;
-    int fibonacciArrayIndex;
+    int currentArrayIndex;
     int scrollSensitivity;
     boolean isCardVisible;
     String pollValueAsStr;
@@ -58,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         loadData();
 
         pollValueTextView = (TextView) findViewById(R.id.pollNumberTextView);
-        fibonacciArrayIndex = 0;    // Starting index
-        pollValueAsStr = String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
+        currentArrayIndex = 0;    // The current chosen element
+        pollValueAsStr = String.valueOf(fibArray.getValueAt(currentArrayIndex));
 
         isCardVisible = false;
 
@@ -109,17 +109,17 @@ public class MainActivity extends AppCompatActivity {
 
                 if (isPositive(locationDifference) && locationDifference > scrollSensitivity){ // Move right
 
-                    if (!lastElement()) { fibonacciArrayIndex++; }
+                    if (!lastElement()) { currentArrayIndex++; }
 
-                    pollValueAsStr = String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
+                    pollValueAsStr = String.valueOf(fibArray.getValueAt(currentArrayIndex));
                     pollValueTextView.setText(pollValueAsStr);
 
                     lastXLocation = currentXLocation;
                 }else if (!isPositive(locationDifference) && (locationDifference * -1) > scrollSensitivity){
 
-                    if (!firstElement()) { fibonacciArrayIndex--; }
+                    if (!firstElement()) { currentArrayIndex--; }
 
-                    pollValueAsStr = String.valueOf(fibArray.getValueAt(fibonacciArrayIndex));
+                    pollValueAsStr = String.valueOf(fibArray.getValueAt(currentArrayIndex));
                     pollValueTextView.setText(pollValueAsStr);
 
                     lastXLocation = currentXLocation;
@@ -173,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
         }
         // Check for out of bound index after removal
         // Smaller index to jump to if the larger indexes was removed
-        if (fibArray.size()-1 < fibonacciArrayIndex) {
-            fibonacciArrayIndex = fibArray.size()-1;
+        if (fibArray.size()-1 < currentArrayIndex) {
+            currentArrayIndex = fibArray.size()-1;
         }
 
         dynamicPrefs.edit().putInt("removeLastValue", 0).apply();
@@ -203,17 +203,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean lastElement(){
-        return fibonacciArrayIndex == fibArray.size()-1;
+        return currentArrayIndex == fibArray.size()-1;
     }
     private boolean firstElement(){
-        return fibonacciArrayIndex == 0;
+        return currentArrayIndex == 0;
     }
 
     // --- Getters & Setters ---
-
-    private void setView(){
-
-    }
 
     private boolean isPositive(int number){
         return number >= 0;
