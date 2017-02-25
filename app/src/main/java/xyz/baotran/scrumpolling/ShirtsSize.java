@@ -42,8 +42,8 @@ public class ShirtsSize implements VotingSystemInterface {
     }
 
     @Override
-    public int getValueAt(int index) {
-        return 0;
+    public String getValueAt(int index) {
+        return "";
     }
 
     @Override
