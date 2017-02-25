@@ -82,8 +82,8 @@ public class Fibonacci implements VotingSystemInterface{
     }
 
     @Override
-    public int getValueAt(int index){
-        return fibArray.get(index);
+    public String getValueAt(int index){
+        return fibArray.get(index) +"";
     }
 
     @Override

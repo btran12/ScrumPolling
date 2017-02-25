@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         pollValueTextView = (TextView) findViewById(R.id.pollNumberTextView);
         currentArrayIndex = 0;    // The current chosen element
-        pollValueAsStr = String.valueOf(fibArray.getValueAt(currentArrayIndex));
+        pollValueAsStr = fibArray.getValueAt(currentArrayIndex);
 
         isCardVisible = false;
 
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (!lastElement()) { currentArrayIndex++; }
 
-                    pollValueAsStr = String.valueOf(fibArray.getValueAt(currentArrayIndex));
+                    pollValueAsStr = fibArray.getValueAt(currentArrayIndex);
                     pollValueTextView.setText(pollValueAsStr);
 
                     lastXLocation = currentXLocation;
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (!firstElement()) { currentArrayIndex--; }
 
-                    pollValueAsStr = String.valueOf(fibArray.getValueAt(currentArrayIndex));
+                    pollValueAsStr = fibArray.getValueAt(currentArrayIndex);
                     pollValueTextView.setText(pollValueAsStr);
 
                     lastXLocation = currentXLocation;
