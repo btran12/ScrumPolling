@@ -1,4 +1,4 @@
-package xyz.baotran.scrumpolling;
+package xyz.baotran.scrumpolling.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +14,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import xyz.baotran.scrumpolling.helpers.Fibonacci;
+import xyz.baotran.scrumpolling.helpers.FileModifications;
+import xyz.baotran.scrumpolling.R;
 
 public class MainActivity extends AppCompatActivity {
     // TODO 2.

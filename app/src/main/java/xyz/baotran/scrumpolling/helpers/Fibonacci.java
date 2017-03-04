@@ -1,11 +1,13 @@
-package xyz.baotran.scrumpolling;
+package xyz.baotran.scrumpolling.helpers;
 
 import java.util.ArrayList;
+
+import xyz.baotran.scrumpolling.interfaces.VotingSystemInterface;
 
 /**
  * Created by bao on 8/27/16.
  */
-public class Fibonacci implements VotingSystemInterface{
+public class Fibonacci implements VotingSystemInterface {
 
     final int NUMBER_OF_DEFAULT_VALUES = 7;
     final int MAXIMUM_COUNT_OF_VALUES = 15;

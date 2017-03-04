@@ -1,4 +1,4 @@
-package xyz.baotran.scrumpolling;
+package xyz.baotran.scrumpolling.interfaces;
 
 /**
  * Created by bao on 9/6/16.

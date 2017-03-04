@@ -1,8 +1,10 @@
-package xyz.baotran.scrumpolling;
+package xyz.baotran.scrumpolling.helpers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import xyz.baotran.scrumpolling.interfaces.VotingSystemInterface;
 
 /**
  * Created by bao on 8/27/16.

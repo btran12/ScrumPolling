@@ -1,7 +1,9 @@
-package xyz.baotran.scrumpolling;
+package xyz.baotran.scrumpolling.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import xyz.baotran.scrumpolling.fragments.SettingsFragment;
 
 /**
  * Created by bao on 8/27/16.

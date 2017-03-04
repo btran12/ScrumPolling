@@ -1,4 +1,4 @@
-package xyz.baotran.scrumpolling;
+package xyz.baotran.scrumpolling.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,8 +7,12 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.widget.Toast;
 
+import xyz.baotran.scrumpolling.R;
+
 /**
  * Created by bao on 8/27/16.
+ *
+ *
  */
 public class SettingsFragment extends PreferenceFragment {
 

@@ -1,4 +1,4 @@
-package xyz.baotran.scrumpolling;
+package xyz.baotran.scrumpolling.helpers;
 
 import android.content.Context;
 import android.util.Log;
