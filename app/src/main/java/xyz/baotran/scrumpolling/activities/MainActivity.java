@@ -20,11 +20,6 @@ import xyz.baotran.scrumpolling.helpers.FileModifications;
 import xyz.baotran.scrumpolling.R;
 
 public class MainActivity extends AppCompatActivity {
-    // TODO 2.
-    // When numbers has 3 digits or greater, rotate screen to landscape.
-    // 2. Use different polling system (i.e. Tshirt's sizes, bucket, ...)
-    // 3. Be able to add their own polling system (Whatever they desires <T>)
-    //
 
     TextView pollValueTextView;
 
@@ -51,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
 
         // Hide the Action Bar
         ActionBar actionBar = getSupportActionBar();
