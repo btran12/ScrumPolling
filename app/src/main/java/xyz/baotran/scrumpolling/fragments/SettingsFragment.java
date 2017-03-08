@@ -1,6 +1,7 @@
 package xyz.baotran.scrumpolling.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -8,6 +9,7 @@ import android.preference.PreferenceFragment;
 import android.widget.Toast;
 
 import xyz.baotran.scrumpolling.R;
+import xyz.baotran.scrumpolling.activities.ColorPrefActivity;
 
 /**
  * Created by bao on 8/27/16.
@@ -51,6 +53,16 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 registerTaps("removeLastValue", "value(s) removed", false);
+                return false;
+            }
+        });
+
+        final Preference changeTextColor = findPreference("textColorPref");
+        changeTextColor.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getActivity(), ColorPrefActivity.class);
+                startActivity(intent);
                 return false;
             }
         });

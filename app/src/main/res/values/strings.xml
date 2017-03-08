@@ -8,4 +8,7 @@
     <string name="pref_scroll_sensitivity_summary">Set the speed of your scroll</string>
     <string name="add_value_pref_key">addNewValue</string>
     <string name="remove_value_pref_key">removeLastValue</string>
+    <string name="text_color_pref_key">textColorPref</string>
+    <string name="change_value_color">Change Value\'s Color</string>
+    <string name="change_value_color_summary">Change the default color of text</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <!-- Change to the content -->
     <PreferenceCategory android:title="Functional Components">
         <ListPreference
             android:key="voting_system_preference"
@@ -24,7 +24,8 @@
             />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Usability">
+    <!-- Change to usability and UI -->
+    <PreferenceCategory android:title="Usability and User Interface">
         <ListPreference
             android:key="sensitivity_preference"
             android:title="@string/pref_scroll_sensitivity_title"
@@ -32,6 +33,11 @@
             android:entries="@array/Sensitivity"
             android:entryValues="@array/SensitivityValues"
             android:defaultValue="30"
+            />
+        <Preference
+            android:title="@string/change_value_color"
+            android:summary="@string/change_value_color_summary"
+            android:key="@string/text_color_pref_key"
             />
     </PreferenceCategory>
 
